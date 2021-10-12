@@ -1,0 +1,26 @@
+# Fail2Ban Local Configuration
+# This file is managed by Ansible
+
+[DEFAULT]
+
+# Passlist IPs
+ignoreip = {{ f2b_ignore_ips|default(['127.0.0.1/8', '::1'])|join(' ') }}
+
+# Time Periods
+bantime = {{ f2b_ban_time|default('10m') }}
+findtime = {{ f2b_find_time|default('10m') }}
+maxretry = {{ f2b_max_retries|default(5) }}
+
+# Email Actions
+destemail = {{ f2b_email_dest }}
+sender = {{ f2b_email_sender|default('root@' + ansible_fqdn) }}
+mta = {{ f2b_email_mta|default('sendmail') }}
+
+# Ban Action
+action = %(action_{{ f2b_action|default('mw') }})s
+
+# Enable SSH Banning
+{% if f2b_ssh_enabled %}
+[{{ f2b_ssh_name|default('sshd') }}]
+enabled = true
+{% endif %}

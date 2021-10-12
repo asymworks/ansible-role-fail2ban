@@ -1,0 +1,9 @@
+---
+# Debian-Specific Tasks for kraussnet.fail2ban
+
+# Install fail2ban Packages
+- name: Fail2Ban (Debian) | Install Packages
+  ansible.builtin.apt:
+    name:
+      - fail2ban
+    update_cache: true

@@ -1,0 +1,26 @@
+---
+# Main Entry Point for asymworks.fail2ban
+
+# Run Distribution-Specific Tasks
+- import_tasks: main-alpine.yaml
+  when: telegraf_enabled and ansible_facts['os_family']|lower == 'alpine'
+
+- import_tasks: main-debian.yaml
+  when: telegraf_enabled and ansible_facts['os_family']|lower == 'debian'
+
+# Copy Configuration
+- name: Fail2Ban | Copy Configuration
+  ansible.builtin.template:
+    src: etc/fail2ban/jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Fail2Ban | Restart Fail2Ban
+
+# Enable Fail2ban
+- name: Fail2Ban | Start Fail2Ban
+  ansible.builtin.service:
+    name: fail2ban
+    enabled: true
+    state: started

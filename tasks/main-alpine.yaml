@@ -1,0 +1,22 @@
+---
+# Alpine-Specific Tasks for kraussnet.fail2ban
+
+# Install fail2ban Packages
+- name: Fail2Ban (Alpine) | Install Packages
+  community.general.apk:
+    name:
+      - fail2ban
+    update_cache: true
+
+# Patch initscript to wait for local service to start (msmtp)
+- name: Fail2Ban (Alpine) | Enable Local Service
+  ansible.builtin.service:
+    name: local
+    enabled: true
+    state: started
+
+- name: Fail2Ban (Alpine) | Patch Initscript
+  ansible.builtin.lineinfile:
+    path: /etc/init.d/fail2ban
+    line: "\tafter local"   # noqa: no-tabs
+    insertafter: "after iptables"

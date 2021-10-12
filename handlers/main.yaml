@@ -1,0 +1,5 @@
+---
+# Handlers for asymworks.fail2ban
+
+- name: Fail2Ban | Restart Fail2Ban
+  ansible.builtin.service: name=fail2ban state=restarted

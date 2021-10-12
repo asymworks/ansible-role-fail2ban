@@ -1,0 +1,21 @@
+---
+# Variable Defaults for asymworks.fail2ban
+
+# Fail2Ban Basic Setup
+f2b_ignore_ips: ['127.0.0.1/8', '::1']
+f2b_ban_time: 10m
+f2b_find_time: 10m
+f2b_max_retries: 5
+
+# Email Notifications
+f2b_email: true
+f2b_email_dest: "root@{{ ansible_fqdn }}"
+f2b_email_sender: "root@{{ ansible_fqdn }}"
+f2b_email_mta: sendmail
+
+# Action
+f2b_action: mwl
+
+# Enable for SSH
+f2b_ssh_enabled: true
+f2b_ssh_name: sshd
